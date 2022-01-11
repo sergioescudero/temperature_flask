@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from app import register_error_handlers
 from app.error_handling import ObjectNotFound
-from temperature.temperature import Temperature
+from temperature.temperature import TemperatureFromFile
 
 app = Flask(__name__)
 CORS(app)
@@ -16,13 +16,13 @@ api = Api(app)
 
 class TemperatureListResource(Resource):
     def get(self):
-        temperatures = Temperature("resources/weather.json")
+        temperatures = TemperatureFromFile("resources/weather.json")
         return temperatures.all()
 
 
 class TemperatureResource(Resource):
     def get(self, day_id):
-        temperatures = Temperature("resources/weather.json")
+        temperatures = TemperatureFromFile("resources/weather.json")
         x = temperatures.get_day(day_id)
         if x is None:
             raise ObjectNotFound('the day does not exist')
