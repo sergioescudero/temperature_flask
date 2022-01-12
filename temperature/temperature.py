@@ -2,16 +2,20 @@ from parser.parser import Parser
 
 
 class Temperature:
-
-    def __init__(self, path):
-        self.path = path
-
     def all(self):
-        parser = Parser()
-        return parser.read_json_from_file(self.path)
+        return self.data
 
     def get_day(self, day):
+        return next((filter(lambda x: x['Dy'] == day, self.data)), None)
+
+
+class TemperatureFromFile(Temperature):
+    def __init__(self, path):
+        self.path = path
         parser = Parser()
-        data = parser.read_json_from_file(self.path)
-        element = next((filter(lambda x: x['Dy'] == day, data)), None)
-        return element
+        self.data = parser.read_json_from_file(self.path)
+
+
+class TemperatureFromJson(Temperature):
+    def __init__(self, data):
+        self.data = data
