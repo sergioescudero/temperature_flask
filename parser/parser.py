@@ -4,7 +4,7 @@ import os
 
 class FilePathMixin:
 
-    def __get_absolute_path(self, relative_path):
+    def get_absolute_path(self, relative_path):
         parent_dir = self.__get_parent_dir()
         return os.path.join(parent_dir, relative_path)
 
@@ -13,8 +13,9 @@ class FilePathMixin:
 
 
 class FileParser(FilePathMixin):
+
     def read_json_from_file(self, path):
-        with open(self.__get_absolute_path(path), "r") as json_file:
+        with open(self.get_absolute_path(path), "r") as json_file:
             data = json.load(json_file)
             return data
 
